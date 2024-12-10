@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Popup1 from "../popups/popup1";
 import Popup2 from "../popups/popup2";
 import Popup3 from "../popups/popup3";
-import Popup4 from "../popups/popup4";
+import Profile from "../popups/profile";
 import Settings from "../popups/settings";
 import AuthPopup from "../popups/auth-pop-up";
 import { auth, onAuthStateChanged } from "../_utils/firebase";
@@ -81,7 +81,7 @@ const Taskbar = () => {
               className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
               onClick={() => openPopup(4)}
             >
-              Button 4
+              Profile
             </button>
             <button
               className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
@@ -96,7 +96,7 @@ const Taskbar = () => {
       {activePopup === 1 && <Popup1 onClose={closePopup} />}
       {activePopup === 2 && <Popup2 onClose={closePopup} />}
       {activePopup === 3 && <Popup3 onClose={closePopup} />}
-      {activePopup === 4 && <Popup4 onClose={closePopup} />}
+      {activePopup === 4 && <Profile onClose={closePopup} />}
       {activePopup === 5 && <Settings onClose={closePopup} />}
     </>
   );
