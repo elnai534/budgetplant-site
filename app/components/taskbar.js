@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import Popup1 from "../popups/popup1";
 import Popup2 from "../popups/popup2";
 import Popup3 from "../popups/popup3";
-import Popup4 from "../popups/popup4";
-import Popup5 from "../popups/popup5";
+import Profile from "../popups/profile";
+import Settings from "../popups/settings";
 import AuthPopup from "../popups/auth-pop-up";
 import { auth, onAuthStateChanged } from "../_utils/firebase";
 
@@ -57,47 +57,32 @@ const Taskbar = () => {
       )}
 
       {isAuthenticated && (
-        <div className="fixed top-0 left-0 w-full bg-gray-800 shadow-lg">
-          <div className="flex justify-center items-center py-3">
-            <button
-              className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
-              onClick={() => openPopup(1)}
-            >
-              History
-            </button>
-            <button
-              className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
-              onClick={() => openPopup(2)}
-            >
-              Profile
-            </button>
-            <button
-              className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
-              onClick={() => openPopup(3)}
-            >
-              Button 3
-            </button>
-            <button
-              className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
-              onClick={() => openPopup(4)}
-            >
-              Button 4
-            </button>
-            <button
-              className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
-              onClick={() => openPopup(5)}
-            >
-              Button 5
-            </button>
+        <div className="fixed top-0 left-0 w-full bg-[#42394f] shadow-lg">
+          <div className="flex justify-between items-center py-6 px-12">
+            {/* Left Side: Title */}
+            <h1 className="text-8xl font-bold text-[#fcb761]">BUDGET PLANT</h1>
+
+            {/* Right Side: Buttons */}
+            <div className="flex space-x-8">
+              <button
+                className="w-60 h-16 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
+                onClick={() => openPopup(1)}
+              >
+                Button 1
+              </button>
+              <button
+                className="w-60 h-16 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
+                onClick={() => openPopup(2)}
+              >
+                Button 2
+              </button>
+            </div>
           </div>
         </div>
       )}
 
       {activePopup === 1 && <Popup1 onClose={closePopup} />}
       {activePopup === 2 && <Popup2 onClose={closePopup} />}
-      {activePopup === 3 && <Popup3 onClose={closePopup} />}
-      {activePopup === 4 && <Popup4 onClose={closePopup} />}
-      {activePopup === 5 && <Popup5 onClose={closePopup} />}
     </>
   );
 };
