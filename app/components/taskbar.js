@@ -5,7 +5,7 @@ import Popup1 from "../popups/popup1";
 import Popup2 from "../popups/popup2";
 import Popup3 from "../popups/popup3";
 import Popup4 from "../popups/popup4";
-import Popup5 from "../popups/popup5";
+import Settings from "../popups/settings";
 import AuthPopup from "../popups/auth-pop-up";
 import { auth, onAuthStateChanged } from "../_utils/firebase";
 
@@ -87,7 +87,7 @@ const Taskbar = () => {
               className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
               onClick={() => openPopup(5)}
             >
-              Button 5
+              Settings
             </button>
           </div>
         </div>
@@ -97,7 +97,7 @@ const Taskbar = () => {
       {activePopup === 2 && <Popup2 onClose={closePopup} />}
       {activePopup === 3 && <Popup3 onClose={closePopup} />}
       {activePopup === 4 && <Popup4 onClose={closePopup} />}
-      {activePopup === 5 && <Popup5 onClose={closePopup} />}
+      {activePopup === 5 && <Settings onClose={closePopup} />}
     </>
   );
 };
