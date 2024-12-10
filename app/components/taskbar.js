@@ -57,6 +57,28 @@ const Taskbar = () => {
       )}
 
       {isAuthenticated && (
+<<<<<<< HEAD
+        <div className="fixed top-0 left-0 w-full bg-[#42394f] shadow-lg">
+          <div className="flex justify-between items-center py-6 px-12">
+            {/* Left Side: Title */}
+            <h1 className="text-8xl font-bold text-[#fcb761]">BUDGET PLANT</h1>
+
+            {/* Right Side: Buttons */}
+            <div className="flex space-x-8">
+              <button
+                className="w-60 h-16 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
+                onClick={() => openPopup(1)}
+              >
+                Button 1
+              </button>
+              <button
+                className="w-60 h-16 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
+                onClick={() => openPopup(2)}
+              >
+                Button 2
+              </button>
+            </div>
+=======
         <div className="fixed top-0 left-0 w-full bg-gray-800 shadow-lg">
           <div className="flex justify-center items-center py-3">
             <button
@@ -89,15 +111,19 @@ const Taskbar = () => {
             >
               Settings
             </button>
+>>>>>>> 2522cf35b4fe9e21154c5387e4013e9ea69b5e44
           </div>
         </div>
       )}
 
       {activePopup === 1 && <Popup1 onClose={closePopup} />}
       {activePopup === 2 && <Popup2 onClose={closePopup} />}
+<<<<<<< HEAD
+=======
       {activePopup === 3 && <Popup3 onClose={closePopup} />}
       {activePopup === 4 && <Profile onClose={closePopup} />}
       {activePopup === 5 && <Settings onClose={closePopup} />}
+>>>>>>> 2522cf35b4fe9e21154c5387e4013e9ea69b5e44
     </>
   );
 };
