@@ -63,13 +63,13 @@ const Taskbar = () => {
               className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
               onClick={() => openPopup(1)}
             >
-              Button 1
+              History
             </button>
             <button
               className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
               onClick={() => openPopup(2)}
             >
-              Button 2
+              Profile
             </button>
             <button
               className="mx-2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition"
