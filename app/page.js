@@ -21,32 +21,31 @@ const App = () => {
         setUser(null);
       }
     });
-  
+
     return () => unsubscribe();
   }, []);
 
   return (
-    <div className="h-screen">
+    <div className="h-screen bg-[#4f455e]">
       <Taskbar />
       {user ? (
-        <div className="flex">
-          {/* Left Section: Add Button */}
-          <div className="w-1/4 p-4 fixed top-16 left-0 z-10">
+        <div className="flex flex-wrap justify-center gap-8 p-12 mt-20">
+          {/* Left Section: Add Button and Records List */}
+          <div className="flex flex-col w-full lg:w-[45%] h-[700px] bg-[#f5eed5] p-6 rounded-lg shadow-lg">
+            <h2 className="text-5xl font-bold mb-4 text-gray-800 text-center">Manage Records</h2>
             <button
               onClick={() => setShowAddRecordPopup(true)}
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              className="w-full text-3xl px-4 py-2 mb-4 bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
             >
               Add New Record
             </button>
-          </div>
-
-          {/* Left Section: Records List */}
-          <div className="w-1/4 p-4 fixed top-24 left-0 overflow-y-auto">
-            <RecordsList user={user} />
+            <div className="bg-white p-4 rounded-md shadow overflow-y-auto max-h-[900px]">
+              <RecordsList user={user} />
+            </div>
           </div>
 
           {/* Right Section: Budget Summary */}
-          <div className="ml-[25%] w-3/4">
+          <div className="flex flex-col w-full lg:w-[45%] bg-[#f5eed5] p-6 rounded-lg shadow-lg">
             <BudgetSummary user={user} />
           </div>
         </div>

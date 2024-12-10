@@ -25,7 +25,7 @@ const AddRecordPopup = ({ user, onClose }) => {
       if (!userId) {
         throw new Error("User not authenticated");
       }
-  
+
       const dateTime = `${formData.date}T${formData.time}`;
       const newRecord = {
         date: dateTime,
@@ -37,39 +37,39 @@ const AddRecordPopup = ({ user, onClose }) => {
       await addDoc(collection(db, "budgetRecords"), newRecord);
       onClose();
     } catch (error) {
+      console.error("Error adding record:", error.message);
     }
   };
-  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-lg font-bold mb-4">Add New Record</h2>
+      <div className="bg-[#f5eed5] p-10 rounded-lg shadow-lg w-[700px] h-auto">
+        <h2 className="text-5xl font-bold text-gray-800 mb-6">Add New Record</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Date</label>
+          <div className="mb-6">
+            <label className="block text-2xl font-semibold text-gray-800 mb-2">Date</label>
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              className="w-full px-4 py-3 border text-2xl border-gray-300 rounded-lg text-gray-700"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Time</label>
+          <div className="mb-6">
+            <label className="block text-2xl font-semibold text-gray-800 mb-2">Time</label>
             <input
               type="time"
               name="time"
               value={formData.time}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              className="w-full px-4 py-3 border text-2xl border-gray-300 rounded-lg text-gray-700"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Category</label>
+          <div className="mb-6">
+            <label className="block text-2xl font-semibold text-gray-800 mb-2">Category</label>
             <input
               type="text"
               name="category"
@@ -77,22 +77,22 @@ const AddRecordPopup = ({ user, onClose }) => {
               onChange={handleChange}
               placeholder="e.g., Groceries"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              className="w-full px-4 py-3 border text-2xl border-gray-300 rounded-lg"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Description</label>
+          <div className="mb-6">
+            <label className="block text-2xl font-semibold text-gray-800 mb-2">Description</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               placeholder="e.g., Bought fruits and vegetables"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              className="w-full px-4 py-3 border text-2xl border-gray-300 rounded-lg"
             ></textarea>
           </div>
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Amount</label>
+          <div className="mb-6">
+            <label className="block text-2xl font-semibold text-gray-800 mb-2">Amount</label>
             <input
               type="number"
               name="amount"
@@ -100,20 +100,20 @@ const AddRecordPopup = ({ user, onClose }) => {
               onChange={handleChange}
               placeholder="e.g., 50 (for income, -50 for expense)"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              className="w-full px-4 py-3 border text-2xl border-gray-300 rounded-lg"
             />
           </div>
           <div className="flex justify-end">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 mr-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+              className="px-6 py-3 mr-4 bg-gray-500 text-white text-3xl rounded-lg hover:bg-gray-600"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              className="px-6 py-3 bg-[#fcb761] text-white text-3xl rounded-lg hover:bg-[#dead71] hover:text-gray-700 transition"
             >
               Add Record
             </button>
