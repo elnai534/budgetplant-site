@@ -3,6 +3,24 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Profile = ({ onClose }) => {
   const [user, setUser] = useState(null);
+  const [name, setName] = useState("");
+  const [joined, setJoined] = useState("");
+  const [targetAmount, setTargetAmount] = useState("");
+
+  // Update localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem("name", name);
+    localStorage.setItem("joined", joined);
+    localStorage.setItem("targetAmount", targetAmount);
+  }, [name, joined, targetAmount]);
+
+  const handleNameChange = (e) => {
+    setName(e.target.value); // Update name
+  };
+
+  const handleTargetAmountChange = (e) => {
+    setTargetAmount(e.target.value); // Update target amount
+  };
 
   useEffect(() => {
     const auth = getAuth();

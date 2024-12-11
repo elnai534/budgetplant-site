@@ -1,79 +1,153 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Popup2 = ({ onClose }) => {
-  // Initialize state from localStorage or fallback to defaults
-  const [name, setName] = useState(localStorage.getItem("name") || "John Doe");
-  const [joined, setJoined] = useState(localStorage.getItem("joined") || "January 2024");
-  const [targetAmount, setTargetAmount] = useState(localStorage.getItem("targetAmount") || 0);
+  const [user, setUser] = useState(null);
+  const [targetAmount, setTargetAmount] = useState(
+    localStorage.getItem("targetAmount") || ""
+  );
 
-  // Update localStorage whenever state changes
+  // Listen for authentication state changes
   useEffect(() => {
-    localStorage.setItem("name", name);
-    localStorage.setItem("joined", joined);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup the listener on unmount
+  }, []);
+
+  // Save the target amount to localStorage whenever it changes
+  useEffect(() => {
     localStorage.setItem("targetAmount", targetAmount);
-  }, [name, joined, targetAmount]);
+  }, [targetAmount]);
 
-  const handleNameChange = (e) => {
-    setName(e.target.value); // Update name
-  };
-
-  const handleTargetAmountChange = (e) => {
-    setTargetAmount(e.target.value); // Update target amount
+  const handleTargetChange = (e) => {
+    setTargetAmount(e.target.value); // Update the target amount state
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-gray-800 text-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-        <div className="flex flex-col items-center">
-          <img
-            src="https://cdn4.iconfinder.com/data/icons/rounded-black-basic-ui/139/Profile01-RoundedBlack-512.png"
-            alt="Profile Icon"
-            className="w-20 h-20 mb-4 rounded-full border-4 border-gray-700"
-          />
-          <h2 className="text-xl font-bold mb-4">Profile</h2>
-        </div>
-        <div className="text-center">
-          <div className="mb-4">
-            <p className="font-semibold mb-2">
-              <span className="text-gray-400">Name: </span>
-              <input
-                type="text"
-                value={name}
-                onChange={handleNameChange}
-                className="bg-gray-600 text-white rounded px-2 py-1"
-              />
-            </p>
-            <p className="font-semibold">
-              <span className="text-gray-400">Joined: </span>
-              {joined}
-            </p>
-          </div>
-          
-          <div className="mb-4">
-            <p className="font-semibold mb-2">
-              <span className="text-gray-400">Set Your Spending Target: </span>
+    <div style={styles.overlay}>
+      <div style={styles.popup}>
+        {user ? (
+          <>
+            <img
+              src={
+                user.photoURL ||
+                "https://cdn4.iconfinder.com/data/icons/rounded-black-basic-ui/139/Profile01-RoundedBlack-512.png"
+              }
+              alt="Profile Icon"
+              style={styles.profilePicture}
+            />
+            <h2 style={styles.heading}>Profile</h2>
+            <div style={styles.details}>
+              <p>
+                <strong>Name:</strong> {user.displayName || "N/A"}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+              <p>
+                <strong>Joined:</strong> {user.metadata?.creationTime || "N/A"}
+              </p>
+            </div>
+            <div style={styles.details}>
+              <p>
+                <strong>Set Your Spending Target:</strong>
+              </p>
               <input
                 type="number"
                 value={targetAmount}
-                onChange={handleTargetAmountChange}
-                className="bg-gray-600 text-white rounded px-2 py-1"
+                onChange={handleTargetChange}
+                style={styles.input}
                 placeholder="Enter amount"
               />
-            </p>
-          </div>
-        </div>
-        
-        <div className="flex justify-center mt-6">
-          <button
-            className="px-6 py-2 bg-pink-400 text-gray-900 font-bold rounded hover:bg-pink-500"
-            onClick={onClose}
-          >
-            Close
-          </button>
-        </div>
+              {targetAmount && (
+                <p style={{ marginTop: "10px" }}>
+                  <strong>Current Target:</strong> ${targetAmount}
+                </p>
+              )}
+            </div>
+          </>
+        ) : (
+          <p style={styles.details}>Loading user information...</p>
+        )}
+        <button style={styles.closeButton} onClick={onClose}>
+          Close
+        </button>
       </div>
     </div>
   );
+};
+
+const styles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  popup: {
+    backgroundColor: "#3E364A",
+    padding: "30px",
+    border: "5px solid #9083A5",
+    borderRadius: "15px",
+    textAlign: "center",
+    fontFamily: "VT323, serif",
+    color: "#f5eed5",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
+    width: "400px",
+    maxWidth: "90%",
+  },
+  profilePicture: {
+    width: "100px",
+    height: "100px",
+    borderRadius: "50%",
+    marginBottom: "20px",
+    border: "3px solid #FFFDED",
+  },
+  heading: {
+    marginBottom: "20px",
+    fontSize: "24px",
+  },
+  details: {
+    textAlign: "center",
+    marginBottom: "20px",
+    fontSize: "18px",
+    lineHeight: "1.5",
+    color: "#DADADA",
+  },
+  input: {
+    marginTop: "10px",
+    padding: "8px",
+    borderRadius: "5px",
+    border: "2px solid #FFFDED",
+    width: "100%",
+    fontFamily: "VT323, serif",
+    fontSize: "18px",
+    textAlign: "center",
+  },
+  closeButton: {
+    marginTop: "20px",
+    backgroundColor: "#FFC0CB",
+    border: "2px solid #9083A5",
+    padding: "10px 25px",
+    borderRadius: "5px",
+    fontFamily: "VT323, serif",
+    fontSize: "20px",
+    color: "#FFFDED",
+    cursor: "pointer",
+  },
 };
 
 export default Popup2;
