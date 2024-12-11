@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Popup1 from "../popups/popup1";
 import Popup2 from "../popups/popup2";
 import Popup3 from "../popups/popup3";
-import Profile from "../popups/profile";
 import Settings from "../popups/settings";
 import AuthPopup from "../popups/auth-pop-up";
 import { auth, onAuthStateChanged } from "../_utils/firebase";
