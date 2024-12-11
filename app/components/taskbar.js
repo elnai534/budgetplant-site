@@ -58,23 +58,30 @@ const Taskbar = () => {
 
       {isAuthenticated && (
         <div className="fixed top-0 left-0 w-full bg-[#42394f] shadow-lg">
-          <div className="flex justify-between items-center py-6 px-12">
+          <div className="flex justify-between items-center py-5 px-12">
             {/* Left Side: Title */}
-            <h1 className="text-8xl font-bold text-[#fcb761]">BUDGET PLANT</h1>
+            <h1 className="text-4xl font-bold text-[#fcb761]">BUDGET PLANT</h1>
 
             {/* Right Side: Buttons */}
             <div className="flex space-x-8">
               <button
-                className="w-60 h-16 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
+                className="w-40 h-10 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
                 onClick={() => openPopup(1)}
               >
-                Button 1
+                History
               </button>
               <button
-                className="w-60 h-16 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
+                className="w-40 h-10 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
                 onClick={() => openPopup(2)}
               >
-                Button 2
+                Profile
+              </button>
+              
+              <button
+                className="w-40 h-10 text-3xl text-white bg-[#fcb761] font-extrabold rounded-xl hover:bg-[#dead71] hover:text-gray-700 transition"
+                onClick={() => openPopup(3)}
+              >
+                Settings
               </button>
             </div>
           </div>
@@ -83,6 +90,8 @@ const Taskbar = () => {
 
       {activePopup === 1 && <Popup1 onClose={closePopup} />}
       {activePopup === 2 && <Popup2 onClose={closePopup} />}
+      {activePopup === 3 && <Settings onClose={closePopup} />}
+
     </>
   );
 };

@@ -47,7 +47,7 @@ const BudgetSummary = ({ user }) => {
   if (loading) {
     return (
       <div className="bg-[#f5eed5] p-6 rounded-lg shadow-lg">
-        <h2 className="text-5xl font-bold mb-4 text-gray-800 text-center">Budget Summary</h2>
+        <h2 className="text-3xl font-bold mb-4 text-gray-800 text-center">Budget Summary</h2>
         <p className="text-center">Loading...</p>
       </div>
     );
@@ -55,22 +55,22 @@ const BudgetSummary = ({ user }) => {
 
   return (
     <div className="bg-[#f5eed5] p-6 rounded-lg shadow-lg">
-      <h2 className="text-5xl font-bold mb-4 text-gray-800 text-center">Budget Summary</h2>
+      <h2 className="text-3xl font-bold mb-4 text-gray-800 text-center">Budget Summary</h2>
       <div className="bg-white p-4 rounded-md shadow">
-        <p className="text-3xl font-semibold text-gray-800">
+        <p className="text-2xl font-semibold text-gray-800">
           Total Received:
           <span className="text-green-500 font-bold ml-2">
             ${totalReceived.toFixed(2)}
           </span>
         </p>
-        <p className="text-3xl font-semibold text-gray-800">
+        <p className="text-2xl font-semibold text-gray-800">
           Total Spent:
           <span className="text-red-500 font-bold ml-2">
             ${Math.abs(totalSpent).toFixed(2)}
           </span>
         </p>
         <hr className="my-4 border-gray-300" />
-        <p className="text-3xl font-semibold text-gray-800">
+        <p className="text-2xl font-semibold text-gray-800">
           Net Balance:
           <span
             className={`font-bold ml-2 ${
