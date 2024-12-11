@@ -1,46 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const Popup2 = ({ onClose }) => {
   const [user, setUser] = useState(null);
-  const [targetAmount, setTargetAmount] = useState(
-    localStorage.getItem("targetAmount") || ""
-  );
+  const [budget, setBudget] = useState("");
 
   const db = getFirestore();
 
   // Listen for authentication state changes
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+
+        // Fetch the user's budget from Firestore
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          setBudget(userDoc.data().budget || ""); // Set the budget if it exists
+        }
       } else {
         setUser(null);
       }
     });
 
     return () => unsubscribe(); // Cleanup the listener on unmount
-  }, []);
+  }, [db]);
 
-  // Save the target amount to localStorage and Firestore whenever it changes
-  useEffect(() => {
+  // Update the budget in Firestore whenever it changes
+  const handleBudgetChange = async (e) => {
+    const newBudget = e.target.value;
+    setBudget(newBudget);
+
     if (user) {
-      const userDoc = doc(db, "users", user.uid);
-      setDoc(
-        userDoc,
-        {
-          targetAmount: targetAmount,
-        },
-        { merge: true }
-      );
-      localStorage.setItem("targetAmount", targetAmount);
-    }
-  }, [targetAmount, user, db]);
+      const userDocRef = doc(db, "users", user.uid);
 
-  const handleTargetChange = (e) => {
-    setTargetAmount(e.target.value); // Update the target amount state
+      try {
+        await setDoc(
+          userDocRef,
+          { budget: newBudget },
+          { merge: true } // Merge with existing data
+        );
+      } catch (error) {
+        console.error("Error updating budget:", error);
+      }
+    }
   };
 
   return (
@@ -74,14 +80,14 @@ const Popup2 = ({ onClose }) => {
               </p>
               <input
                 type="number"
-                value={targetAmount}
-                onChange={handleTargetChange}
+                value={budget}
+                onChange={handleBudgetChange}
                 style={styles.input}
                 placeholder="Enter amount"
               />
-              {targetAmount && (
+              {budget && (
                 <p style={{ marginTop: "10px" }}>
-                  <strong>Current Target:</strong> ${targetAmount}
+                  <strong>Current Budget:</strong> ${budget}
                 </p>
               )}
             </div>
