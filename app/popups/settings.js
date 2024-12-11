@@ -23,49 +23,46 @@ const Settings = ({ onClose }) => {
         {/* Volume Toggle */}
         <div className="flex justify-between items-center my-4">
           <span className="text-black text-lg font-bold font-vt323">Volume:</span>
-          <button onClick={() => setIsVolumeOn(!isVolumeOn)}>
-            <img
-              src={
-                isVolumeOn
-                  ? "/assets/toggle-on.png"
-                  : "/assets/toggle-off.png"
-              }
-              alt="Volume Toggle"
-              className="w-12 h-6"
-            />
-          </button>
+          <img
+            src={
+              isVolumeOn
+                ? "../../assets/toggle-on.png"
+                : "../../assets/toggle-off.png"
+            }
+            alt="Volume Toggle"
+            className="w-12 h-6 cursor-pointer"
+            onClick={() => setIsVolumeOn(!isVolumeOn)}
+          />
         </div>
 
         {/* Light Mode Toggle */}
         <div className="flex justify-between items-center my-4">
           <span className="text-black text-lg font-bold font-vt323">Light Mode:</span>
-          <button onClick={() => setIsLightMode(!isLightMode)}>
-            <img
-              src={
-                isLightMode
-                  ? "/assets/toggle-on.png"
-                  : "/assets/toggle-off.png"
-              }
-              alt="Light Mode Toggle"
-              className="w-12 h-6"
-            />
-          </button>
+          <img
+            src={
+              isLightMode
+                ? "../../assets/toggle-on.png"
+                : "../../assets/toggle-off.png"
+            }
+            alt="Light Mode Toggle"
+            className="w-12 h-6 cursor-pointer"
+            onClick={() => setIsLightMode(!isLightMode)}
+          />
         </div>
 
         {/* Dark Mode Toggle */}
         <div className="flex justify-between items-center my-4">
           <span className="text-black text-lg font-bold font-vt323">Dark Mode:</span>
-          <button onClick={() => setIsDarkMode(!isDarkMode)}>
-            <img
-              src={
-                isDarkMode
-                  ? "/assets/toggle-on.png"
-                  : "/assets/toggle-off.png"
-              }
-              alt="Dark Mode Toggle"
-              className="w-12 h-6"
-            />
-          </button>
+          <img
+            src={
+              isDarkMode
+                ? "../../assets/toggle-on.png"
+                : "../../assets/toggle-off.png"
+            }
+            alt="Dark Mode Toggle"
+            className="w-12 h-6 cursor-pointer"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+          />
         </div>
       </div>
     </div>
