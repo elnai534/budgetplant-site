@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const Popup2 = ({ onClose }) => {
   const [user, setUser] = useState(null);
   const [targetAmount, setTargetAmount] = useState(
     localStorage.getItem("targetAmount") || ""
   );
+
+  const db = getFirestore();
 
   // Listen for authentication state changes
   useEffect(() => {
@@ -21,10 +24,20 @@ const Popup2 = ({ onClose }) => {
     return () => unsubscribe(); // Cleanup the listener on unmount
   }, []);
 
-  // Save the target amount to localStorage whenever it changes
+  // Save the target amount to localStorage and Firestore whenever it changes
   useEffect(() => {
-    localStorage.setItem("targetAmount", targetAmount);
-  }, [targetAmount]);
+    if (user) {
+      const userDoc = doc(db, "users", user.uid);
+      setDoc(
+        userDoc,
+        {
+          targetAmount: targetAmount,
+        },
+        { merge: true }
+      );
+      localStorage.setItem("targetAmount", targetAmount);
+    }
+  }, [targetAmount, user, db]);
 
   const handleTargetChange = (e) => {
     setTargetAmount(e.target.value); // Update the target amount state
