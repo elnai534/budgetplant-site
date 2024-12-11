@@ -95,11 +95,12 @@ const BudgetSummary = ({ user }) => {
   }
 
   const budgetComparison =
-    budget !== null
-      ? netBalance > budget
-        ? `You have exceeded your budget by $${(netBalance - budget).toFixed(2)}.`
-        : `You are within your budget by $${(budget - netBalance).toFixed(2)}.`
-      : "No budget set.";
+  budget !== null
+    ? netBalance < 0 && Math.abs(netBalance) > budget
+      ? `You have exceeded your budget by $${(Math.abs(netBalance) - budget).toFixed(2)}.`
+      : `You are within your budget by $${(budget - Math.abs(netBalance)).toFixed(2)}.`
+    : "No budget set.";
+
 
   return (
     <div className="bg-[#f5eed5] p-6 rounded-lg shadow-lg">
