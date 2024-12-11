@@ -38,24 +38,24 @@ const RecordsList = ({ user }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-md shadow overflow-y-auto max-h-[400px]">
-      <ul>
+    <div className="bg-white p-4 rounded-md shadow max-h-[250px] overflow-y-auto">
+      <ul className="space-y-4">
         {data.map((item) => (
           <li
             key={item.id}
-            className="border border-gray-300 rounded-lg p-3 mb-3 bg-gray-100 shadow hover:bg-gray-300 transition"
+            className="border border-gray-300 rounded-lg p-4 bg-gray-100 shadow hover:bg-gray-300 transition"
           >
-            <p className="text-2xl text-gray-700 italic">{formatDate(item.date)}</p>
-            <p className="text-3xl font-semibold text-gray-800">{item.category}</p>
-            <p className="text-2xl text-gray-600">{item.description}</p>
+            <p className="text-xl text-gray-700 italic">{formatDate(item.date)}</p>
+            <p className="text-2xl font-semibold text-gray-800">{item.category}</p>
+            <p className="text-xl text-gray-600">{item.description}</p>
             <p
-              className={`text-3xl font-bold ${
+              className={`text-2xl font-bold ${
                 item.amount > 0 ? "text-green-500" : "text-red-500"
               }`}
             >
               {item.amount > 0
                 ? `+$${item.amount.toFixed(2)}`
-                : `-$${Math.abs(item.amount).toFixed(2)}`}
+                : `-$${Math.abs(item.amount.toFixed(2))}`}
             </p>
           </li>
         ))}
