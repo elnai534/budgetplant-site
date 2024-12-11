@@ -9,6 +9,7 @@ const BudgetSummary = ({ user }) => {
   const [budget, setBudget] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imageSource, setImageSource] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -41,20 +42,18 @@ const BudgetSummary = ({ user }) => {
 
     // Fetch the user's budget
     const userDocRef = doc(db, "users", user.uid);
-    getDoc(userDocRef)
-      .then((docSnapshot) => {
-        if (docSnapshot.exists()) {
-          setBudget(docSnapshot.data().budget);
-        } else {
-          setBudget(null);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching user budget:", err);
-        setError("Failed to load user budget.");
-      });
+    const unsubscribeBudget = onSnapshot(userDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        setBudget(docSnapshot.data().budget);
+      } else {
+        setBudget(null);
+      }
+    });
 
-    return () => unsubscribeRecords();
+    return () => {
+      unsubscribeRecords();
+      unsubscribeBudget();
+    };
   }, [user]);
 
   const totalReceived = data
@@ -66,6 +65,25 @@ const BudgetSummary = ({ user }) => {
     .reduce((acc, item) => acc + item.amount, 0);
 
   const netBalance = totalReceived + totalSpent;
+
+  useEffect(() => {
+    if (budget !== null) {
+      const adjustedBudget = Number(budget) + netBalance;
+      const calculatedPercentage = (adjustedBudget / budget) * 100;
+      console.log(calculatedPercentage)
+      if (calculatedPercentage >= 100) {
+        setImageSource("../../assets/flower.png");
+      } else if (calculatedPercentage < 100 && calculatedPercentage >= 80) {
+        setImageSource("../../assets/leaf.png");
+      } else if (calculatedPercentage < 79 && calculatedPercentage >= 50) {
+        setImageSource("../../assets/dyingleft1.png");
+      } else if (calculatedPercentage < 50 && calculatedPercentage >= 20) {
+        setImageSource("../../assets/dyingleef.png");
+      } else {
+        setImageSource("../../assets/dead.png");
+      }
+    }
+  }, [budget, netBalance]);
 
   if (loading) {
     return (
@@ -95,7 +113,7 @@ const BudgetSummary = ({ user }) => {
   }
 
   const adjustedBudget =
-  budget !== null ? Number(budget) + (netBalance > 0 ? Number(netBalance) : 0) : null;
+    budget !== null ? Number(budget) + (netBalance > 0 ? Number(netBalance) : 0) : null;
 
   const budgetComparison =
     adjustedBudget !== null
@@ -134,6 +152,7 @@ const BudgetSummary = ({ user }) => {
           </span>
         </p>
         <p className="text-lg text-gray-700 mt-4">{budgetComparison}</p>
+        {imageSource && <img src={imageSource} alt="Budget Status" className="mt-4 mx-auto flex flex-col w-full lg:w-[45%] p-6 rounded-lg shadow-lg" style={{ width: "150px", height: "300px" }} />}
       </div>
     </div>
   );

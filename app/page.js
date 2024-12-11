@@ -8,7 +8,6 @@ import RecordsList from "./components/records-list";
 import BudgetSummary from "./components/budget-summary";
 import AddRecordPopup from "./components/edit-records";
 import InitializationPopup from "./popups/initialization-pop-up";
-import DynamicImage from "./components/plent-life-order";  // Import DynamicImage component
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -76,9 +75,7 @@ const App = () => {
 
               {/* Right Section: Budget Summary and Dynamic Image */}
               <div className="flex flex-col w-full lg:w-[45%] bg-[#f5eed5] p-6 rounded-lg shadow-lg">
-                <DynamicImage value={user?.budget} maxValue={100} />
                 <BudgetSummary user={user} />
-                
               </div>
             </>
           )}
