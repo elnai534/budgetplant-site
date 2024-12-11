@@ -1,37 +1,60 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
-import { app } from "../_utils/firebase"; // Adjust this import based on your Firebase config
+import { getFirestore, collection, query, where, onSnapshot, doc, getDoc } from "firebase/firestore";
+import { app } from "../_utils/firebase";
 
 const BudgetSummary = ({ user }) => {
   const [data, setData] = useState([]);
+  const [budget, setBudget] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!user) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
-      setLoading(true);
-      try {
-        const db = getFirestore(app);
-        const recordsRef = collection(db, "budgetRecords"); // Adjust "budgetRecords" to your collection name
-        const q = query(recordsRef, where("userId", "==", user.uid));
-        const querySnapshot = await getDocs(q);
+    const db = getFirestore(app);
 
+    // Listen for real-time updates in the budget records
+    const recordsRef = collection(db, "budgetRecords");
+    const q = query(recordsRef, where("userId", "==", user.uid));
+
+    const unsubscribeRecords = onSnapshot(
+      q,
+      (querySnapshot) => {
         const fetchedData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setData(fetchedData);
-      } catch (error) {
-        console.error("Error fetching budget data:", error);
-      } finally {
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Error fetching budget records:", err);
+        setError("Failed to load budget records.");
         setLoading(false);
       }
-    };
+    );
 
-    fetchData();
+    // Fetch the user's budget
+    const userDocRef = doc(db, "users", user.uid);
+    getDoc(userDocRef)
+      .then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          setBudget(docSnapshot.data().budget);
+        } else {
+          setBudget(null);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching user budget:", err);
+        setError("Failed to load user budget.");
+      });
+
+    return () => unsubscribeRecords();
   }, [user]);
 
   const totalReceived = data
@@ -52,6 +75,31 @@ const BudgetSummary = ({ user }) => {
       </div>
     );
   }
+
+  if (error) {
+    return (
+      <div className="bg-[#f5eed5] p-6 rounded-lg shadow-lg">
+        <h2 className="text-5xl font-bold mb-4 text-gray-800 text-center">Budget Summary</h2>
+        <p className="text-center text-red-500">{error}</p>
+      </div>
+    );
+  }
+
+  if (!data.length) {
+    return (
+      <div className="bg-[#f5eed5] p-6 rounded-lg shadow-lg">
+        <h2 className="text-5xl font-bold mb-4 text-gray-800 text-center">Budget Summary</h2>
+        <p className="text-center">No records available. Please add some budget records.</p>
+      </div>
+    );
+  }
+
+  const budgetComparison =
+    budget !== null
+      ? netBalance > budget
+        ? `You have exceeded your budget by $${(netBalance - budget).toFixed(2)}.`
+        : `You are within your budget by $${(budget - netBalance).toFixed(2)}.`
+      : "No budget set.";
 
   return (
     <div className="bg-[#f5eed5] p-6 rounded-lg shadow-lg">
@@ -80,6 +128,7 @@ const BudgetSummary = ({ user }) => {
             ${netBalance.toFixed(2)}
           </span>
         </p>
+        <p className="text-lg text-gray-700 mt-4">{budgetComparison}</p>
       </div>
     </div>
   );
