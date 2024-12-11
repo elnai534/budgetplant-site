@@ -156,6 +156,7 @@ const styles = {
     fontFamily: "VT323, serif",
     fontSize: "18px",
     textAlign: "center",
+    color: "#3E364A",
   },
   closeButton: {
     marginTop: "20px",
