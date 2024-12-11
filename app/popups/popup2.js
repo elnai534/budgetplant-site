@@ -11,6 +11,7 @@ const Popup2 = ({ onClose }) => {
   // Listen for authentication state changes
   useEffect(() => {
     const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
 
