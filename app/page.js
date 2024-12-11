@@ -49,7 +49,7 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen bg-[#4f455e]  flex flex-col">
+    <div className="min-h-screen bg-[#4f455e]  flex flex-col">
       <Taskbar />
       {user ? (
         <div className="flex flex-wrap justify-center gap-8 p-6 mt-20">

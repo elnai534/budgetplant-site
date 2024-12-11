@@ -38,7 +38,7 @@ const RecordsList = ({ user }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-md shadow max-h-[455px] overflow-y-auto">
+    <div className="bg-white p-4 rounded-md max-h-[455px]">
       <ul className="space-y-4">
         {data.map((item) => (
           <li

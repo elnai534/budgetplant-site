@@ -10,6 +10,7 @@ const BudgetSummary = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [imageSource, setImageSource] = useState("");
+  const [statusMessage, setStatusMessage] = useState(""); // New state for messages
 
   useEffect(() => {
     if (!user) {
@@ -70,17 +71,23 @@ const BudgetSummary = ({ user }) => {
     if (budget !== null) {
       const adjustedBudget = Number(budget) + netBalance;
       const calculatedPercentage = (adjustedBudget / budget) * 100;
-      console.log(calculatedPercentage)
+      console.log(calculatedPercentage);
+      
       if (calculatedPercentage >= 100) {
         setImageSource("../../assets/flower.png");
+        setStatusMessage("Your Flower is Bloming & Thriving and so is Your Budget!");
       } else if (calculatedPercentage < 100 && calculatedPercentage >= 80) {
         setImageSource("../../assets/leaf.png");
-      } else if (calculatedPercentage < 79 && calculatedPercentage >= 50) {
+        setStatusMessage("Your Plant Is Still Good Condition! Keep it Healthy and Keep Your Savings intact.");
+      } else if (calculatedPercentage < 80 && calculatedPercentage >= 50) {
         setImageSource("../../assets/dyingleft1.png");
+        setStatusMessage("Uh Oh! Your Plant and Budget Are Starting to Look Bad! Let's Fix That.");
       } else if (calculatedPercentage < 50 && calculatedPercentage >= 20) {
         setImageSource("../../assets/dyingleef.png");
+        setStatusMessage("Your budget is struggling and So is Your Plant, We Need To Make a Change!");
       } else {
         setImageSource("../../assets/dead.png");
+        setStatusMessage("Things Aren't Looking Too Good! Your Plant Has Withered and so Has Your Budget!");
       }
     }
   }, [budget, netBalance]);
@@ -152,7 +159,17 @@ const BudgetSummary = ({ user }) => {
           </span>
         </p>
         <p className="text-lg text-gray-700 mt-4">{budgetComparison}</p>
-        {imageSource && <img src={imageSource} alt="Budget Status" className="mt-4 mx-auto flex flex-col w-full lg:w-[45%] p-6 rounded-lg shadow-lg" style={{ width: "150px", height: "300px" }} />}
+        {imageSource && (
+          <div className="mt-4 text-center">
+            <img
+              src={imageSource}
+              alt="Budget Status"
+              className="mx-auto"
+              style={{ width: "150px", height: "300px" }}
+            />
+            <p className="mt-2 text-xl font-semibold text-black">{statusMessage}</p>
+          </div>
+        )}
       </div>
     </div>
   );
