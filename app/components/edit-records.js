@@ -54,7 +54,7 @@ const AddRecordPopup = ({ user, onClose }) => {
               value={formData.date}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg text-gray-700"
+              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg text-black"
             />
           </div>
           <div className="mb-4">
@@ -65,7 +65,7 @@ const AddRecordPopup = ({ user, onClose }) => {
               value={formData.time}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg text-gray-700"
+              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg text-black"
             />
           </div>
           <div className="mb-4">
@@ -77,7 +77,7 @@ const AddRecordPopup = ({ user, onClose }) => {
               onChange={handleChange}
               placeholder="e.g., Groceries"
               required
-              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg"
+              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg text-black"
             />
           </div>
           <div className="mb-4">
@@ -88,7 +88,7 @@ const AddRecordPopup = ({ user, onClose }) => {
               onChange={handleChange}
               placeholder="e.g., Bought fruits and vegetables"
               required
-              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg"
+              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg text-black"
             ></textarea>
           </div>
           <div className="mb-4">
@@ -100,7 +100,7 @@ const AddRecordPopup = ({ user, onClose }) => {
               onChange={handleChange}
               placeholder="e.g., 50 (for income, -50 for expense)"
               required
-              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg"
+              className="w-full px-4 py-2 border text-xl border-gray-300 rounded-lg text-black"
             />
           </div>
           <div className="flex justify-end">
